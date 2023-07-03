@@ -40,6 +40,21 @@ if ($url == '/characters/') {
     require_once $_SERVER["DOCUMENT_ROOT"] . '/templates/footer.php';
     exit();
 }
+if ($url == '/sign_in/') {
+    $styleList =[
+    ];
+    $scriptList = [
+    ];
+
+    $title = "Авторизация";
+    $description = "";
+    $data['h'] = "";
+    require_once $_SERVER["DOCUMENT_ROOT"] . '/templates/head.php';
+    require_once $_SERVER["DOCUMENT_ROOT"] . '/templates/header.php';
+    require_once $_SERVER["DOCUMENT_ROOT"] .  '/modules/user/controller/authController.php';
+    require_once $_SERVER["DOCUMENT_ROOT"] . '/templates/footer.php';
+    exit();
+}
 if ($url_explode[0] == 'character' && !empty($url_explode[1])) {
     $styleList =[
     ];

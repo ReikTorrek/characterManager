@@ -4,6 +4,7 @@ class Character
 {
     public $id;
     public $name;
+    public $user_id;
     public $custom_fields;
 
     public function __construct($character) {
@@ -28,8 +29,8 @@ class Character
         return $character;
     }
 
-    public static function getAllCharacters() {
-        $characters = DB::getAll("SELECT * FROM characters");
+    public static function getAllCharactersByUserId($userId = 1) {
+        $characters = DB::getAll("SELECT * FROM characters WHERE user_id = " . $userId);
         foreach ($characters as $key => $value) {
             $objectscarsArray[$key] = new Character($value);
         }
