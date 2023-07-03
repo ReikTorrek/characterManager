@@ -32,4 +32,41 @@ class User
         $user = DB::getRow("SELECT * FROM users WHERE id = :id", $array);
         return $user;
     }
+
+    public static function getUserByLogin($login)
+    {
+        $user = DB::getRow("SELECT * FROM users WHERE login = '" . $login . "'");
+        if ($user) {
+            return new User($user);
+        }else {
+            return false;
+        }
+    }
+
+    public function addUserCoockies()
+    {
+        setcookie('userId', $this->id, time() + 60*60*24*30, '/');
+        setcookie('login', $this->login, time() + 60*60*24*30, '/');
+        setcookie('password', $this->password, time() + 60*60*24*30, '/');
+    }
+
+    public function clearUserCookies()
+    {
+        setcookie('userId', '', time() - 60*60*24*30, '/');
+        setcookie('login', '', time() - 60*60*24*30, '/');
+        setcookie('password', '', time() - 60*60*24*30, '/');
+    }
+
+    public static function checkUserCookies() {
+        $user = DB::getRow("SELECT * FROM users WHERE login = '" . @$_COOKIE['login'] . "' AND id = '" . @$_COOKIE['userId'] . "'");
+        if ($user) {
+            if ($user['password'] == @$_COOKIE['password']) {
+                return true;
+            }else {
+                return false;
+            }
+        }else {
+            return false;
+        }
+    }
 }
