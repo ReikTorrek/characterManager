@@ -1,0 +1,10 @@
+/docker/db/
+/.idea/.gitignore
+/.idea/characterManager.iml
+/.idea/deployment.xml
+/.idea/modules.xml
+/.idea/php.xml
+/.idea/vcs.xml
+/vendor/
+/html/js/lib/bootstrap.min.js
+/html/css/lib/bootstrap.min.css

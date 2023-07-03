@@ -39,13 +39,32 @@ class Character
 
     public function getAllCustomFields()
     {
-        $customFields = DB::getAll("
-        SELECT custom_fields.id, custom_fields.name, custom_fields.header_id, custom_fields.character_id, custom_fields_data.data
-            FROM custom_fields 
-            JOIN custom_fields_data ON custom_fields_data.field_id = custom_fields.id
-            WHERE custom_fields.character_id = " . $this->id);
+        $customFields = DB::getAll("SELECT * FROM custom_fields WHERE character_id = " . $this->id);
+        foreach ($customFields as $key => $customField) {
+            $customFields[$key]['data'] = $this->getCustomFieldData($customField['id']);
+        }
+        $headers = $this->getCustomHeader();
+        usort($headers, function($a, $b){
+            return ($a['sort'] - $b['sort']);
+        });
+        foreach ($headers as $header) {
+            foreach ($customFields as $customField) {
+                if ($header['id'] == $customField['header_id']) {
+                    $this->custom_fields[$header['name']][] = $customField;
+                    $this->custom_fields[$header['name']]['header_id'] = $customField['header_id'];
+                }
+            }
+        }
+    }
 
-        $this->custom_fields = $customFields;
+    public function getCustomHeader()
+    {
+        return DB::getAll("SELECT name, id, sort FROM custom_fields WHERE header_id IS NULL AND character_id = " . $this->id);
+    }
+
+    public function getCustomFieldData($fieldId)
+    {
+        return DB::getValue("SELECT data FROM custom_fields_data WHERE field_id = " . $fieldId);
     }
 
 }
