@@ -71,3 +71,22 @@ if ($url_explode[0] == 'character' && !empty($url_explode[1])) {
     require_once $_SERVER["DOCUMENT_ROOT"] . '/templates/footer.php';
     exit();
 }
+
+if ($url == '/create/') {
+    $styleList =[
+    ];
+    $scriptList = [
+        '/js/characterCreate.js'
+    ];
+
+    $title = "Создать персонажа";
+    $description = "";
+    $data['h'] = "";
+    require_once $_SERVER["DOCUMENT_ROOT"] . '/templates/head.php';
+    require_once $_SERVER["DOCUMENT_ROOT"] . '/templates/header.php';
+    require_once $_SERVER["DOCUMENT_ROOT"] . '/templates/createCharacter/modals/addHeaderModal.php';
+    require_once $_SERVER["DOCUMENT_ROOT"] . '/templates/createCharacter/modals/addFieldModal.php';
+    require_once $_SERVER["DOCUMENT_ROOT"] . '/modules/character/controller/createCharacterController.php';
+    require_once $_SERVER["DOCUMENT_ROOT"] . '/templates/footer.php';
+    exit();
+}

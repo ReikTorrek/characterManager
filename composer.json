@@ -1,6 +1,7 @@
 {
     "require": {
-        "twbs/bootstrap": "^5.3"
+        "twbs/bootstrap": "^5.3",
+      "ext-json": "*"
     },
     "require-dev": {
         "symfony/var-dumper": "^6.0"

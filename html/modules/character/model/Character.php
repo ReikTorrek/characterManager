@@ -9,7 +9,7 @@ class Character
 
     public function __construct($character) {
         if (is_array($character)) { // Проверка массив ли входящий параметр, если да заполнить класс
-            Character::fillSelf($character); // fillSelf - заполнение классом самого себя
+            $this->fillSelf($character); // fillSelf - заполнение классом самого себя
         }elseif (is_numeric($character)) { // Если не массив, а число, тогда вытащить данные из БД и заполнить
             $character = Character::getCharacter($character); //Получить из БД одну запись
             $this->fillSelf($character); // Заполнить класс этой записью
@@ -17,8 +17,8 @@ class Character
     }
 
     private function fillSelf($character) {
-        $this->id = $character['id'];
-        $this->name = $character['name'];
+        $this->id = @$character['id'];
+        $this->name = @$character['name'];
     }
 
     public static function getCharacter($id) {
@@ -66,6 +66,16 @@ class Character
     public function getCustomFieldData($fieldId)
     {
         return DB::getValue("SELECT data FROM custom_fields_data WHERE field_id = " . $fieldId);
+    }
+
+    public function createCharacter()
+    {
+        $data = [
+            'name' => $this->name,
+            'user_id' => $this->user_id,
+        ];
+
+        return DB::add("INSERT INTO characters (`name`, `user_id`) VALUES (:name, :user_id)", $data);
     }
 
 }
