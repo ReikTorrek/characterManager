@@ -1,4 +1,11 @@
 $(document).ready(function () {
+    $("#character").on('click', '.add_field', function () {
+        const dataId = $(this).data('id');
+        alert('click detected!!! Data-id = ' + dataId)
+        $("#create__field").removeAttr('data-id', dataId);
+        $("#create__field").attr('data-id', dataId);
+    })
+
     $("#add_header_name").on('click', function () {
         $.ajax({
             url: '/modules/character/controller/ajax/addHeader.php',
@@ -27,6 +34,8 @@ $(document).ready(function () {
         });
     })
     $("#create__field").on('click', function () {
+        console.log($(this).data('id'))
+        console.log($("#create__field").data('id'))
         $.ajax({
             url: '/modules/character/controller/ajax/addHeader.php',
             method: 'post',
@@ -34,7 +43,7 @@ $(document).ready(function () {
             data: {
                 name: $("#block_name").val(),
                 color: $("#block_name_color").val(),
-                header_id: $(".add_field").last().data('id'),
+                header_id: $("#create__field").data('id'),
                 sort: null
             },
             success: function(data){   /* функция которая будет выполнена после успешного запроса.  */
@@ -93,9 +102,9 @@ $(document).ready(function () {
     })
 })
 
-window.onbeforeunload = function() {
+/*window.onbeforeunload = function() {
     return "Есть несохранённые изменения. Всё равно уходим?";
-};
+};*/
 
 $("#unset_character").on('click', function () {
     const headers = $("h2");
