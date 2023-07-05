@@ -1,3 +1,3 @@
 <?php
-$data = Character::getAllCharactersByUserId();
+$data = Character::getAllCharactersByUserId($_COOKIE['userId']);
 View::render("/modules/characters/view/charactersView.php", $data);

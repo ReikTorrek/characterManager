@@ -57,6 +57,7 @@ if ($url == '/sign_in/') {
 }
 if ($url_explode[0] == 'character' && !empty($url_explode[1])) {
     $styleList =[
+        '/css/characterMain.css',
     ];
     $scriptList = [
         '/js/characterMain.js'

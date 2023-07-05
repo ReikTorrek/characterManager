@@ -51,22 +51,20 @@ $(document).ready(function () {
                     success: function(fieldData){   /* функция которая будет выполнена после успешного запроса.  */
                         fieldData = JSON.parse(fieldData);
                         const addFieldButton = $(".add_field[data-id="+data.header_id+"]");
-                        //let characterDataId = addFieldButton.id;
-                        console.log(data.header_id)
                         const characterData = $("#"+data.header_id);
                         addFieldButton.remove();
                         characterData.append(
-                            '<dl id="'+data.id+'"></dl>'
+                            '<p id="'+data.id+'"></p>'
                         );
                         characterData.append(
                             '<button type="button" class="btn btn-success mb-3 add_field" data-id = "'+data.header_id+'" data-bs-toggle="modal" data-bs-target="#addFieldModal">Добавить поле</button>'
                         )
                         const field = $("#"+data.id);
                         field.append(
-                            '<dt style="color: '+data.color+'">'+data.name+'</dt>'
+                            '<span style="color: '+data.color+'">'+data.name+'</span>: '
                         )
                         field.append(
-                            '<dd style="color: '+fieldData.color+'">'+fieldData.data+'</dd>'
+                            '<span style="color: '+fieldData.color+'">'+fieldData.data+'</span>'
                         )
                     }
                 });
@@ -80,7 +78,6 @@ $(document).ready(function () {
         for (let i = 0; i < headers.length; i ++) {
             headerIds.push(headers[i].dataset.id)
         }
-        console.log(headerIds);
         $.ajax({
             url: '/modules/character/controller/ajax/createCharacter.php',
             method: 'post',
@@ -99,3 +96,38 @@ $(document).ready(function () {
 window.onbeforeunload = function() {
     return "Есть несохранённые изменения. Всё равно уходим?";
 };
+
+$("#unset_character").on('click', function () {
+    const headers = $("h2");
+    let headerIds = [];
+    for (let i = 0; i < headers.length; i ++) {
+        headerIds.push(headers[i].dataset.id)
+    }
+    $.ajax({
+        url: '/modules/character/controller/ajax/unsetCharacter.php',
+        method: 'post',
+        dataType: 'html',          /* Тип данных в ответе (xml, json, script, html). */
+        data: {
+            headerIds: headerIds
+        },
+        success: function () {
+            $("#character").remove();
+        }
+    });
+})
+
+window.addEventListener("unload", function() {
+    const headers = $("h2");
+    let headerIds = [];
+    for (let i = 0; i < headers.length; i ++) {
+        headerIds.push(headers[i].dataset.id)
+    }
+    $.ajax({
+        url: '/modules/character/controller/ajax/unsetCharacter.php',
+        method: 'post',
+        dataType: 'html',          /* Тип данных в ответе (xml, json, script, html). */
+        data: {
+            headerIds: headerIds
+        },
+    });
+});

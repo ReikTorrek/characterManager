@@ -29,7 +29,8 @@ class Character
         return $character;
     }
 
-    public static function getAllCharactersByUserId($userId = 1) {
+    public static function getAllCharactersByUserId($userId): array
+    {
         $characters = DB::getAll("SELECT * FROM characters WHERE user_id = " . $userId);
         foreach ($characters as $key => $value) {
             $objectscarsArray[$key] = new Character($value);
@@ -38,11 +39,12 @@ class Character
         return $objectscarsArray;
     }
 
-    public function getAllCustomFields()
+    public function getAllCustomFields(): void
     {
         $customFields = DB::getAll("SELECT * FROM custom_fields WHERE character_id = " . $this->id);
         foreach ($customFields as $key => $customField) {
             $customFields[$key]['data'] = $this->getCustomFieldData($customField['id']);
+            $customFields[$key]['data_color'] = $this->getCustomFieldColor($customField['id']);
         }
         $headers = $this->getCustomHeader();
         usort($headers, function($a, $b){
@@ -53,22 +55,27 @@ class Character
                 if ($header['id'] == $customField['header_id']) {
                     $this->custom_fields[$header['name']][] = $customField;
                     $this->custom_fields[$header['name']]['header_id'] = $customField['header_id'];
+                    $this->custom_fields[$header['name']]['color'] = $customField['color'];
                 }
             }
         }
     }
 
-    public function getCustomHeader()
+    public function getCustomHeader(): bool|array
     {
-        return DB::getAll("SELECT name, id, sort FROM custom_fields WHERE header_id IS NULL AND character_id = " . $this->id);
+        return DB::getAll("SELECT * FROM custom_fields WHERE header_id IS NULL AND character_id = " . $this->id);
     }
 
     public function getCustomFieldData($fieldId)
     {
         return DB::getValue("SELECT data FROM custom_fields_data WHERE field_id = " . $fieldId);
     }
+    public function getCustomFieldColor($fieldId)
+    {
+        return DB::getValue("SELECT color FROM custom_fields_data WHERE field_id = " . $fieldId);
+    }
 
-    public function createCharacter()
+    public function createCharacter(): bool|int|string
     {
         $data = [
             'name' => $this->name,

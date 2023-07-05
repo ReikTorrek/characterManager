@@ -36,7 +36,7 @@ class CustomField
         return DB::getRow("SELECT * FROM custom_fields WHERE id = :id", $array);
     }
 
-    public function createCustomField()
+    public function createCustomField(): bool|int|string
     {
         $data = [
             'name' => $this->name,
@@ -58,11 +58,21 @@ class CustomField
         return DB::add($query);
     }
 
-    public static function getCustomFieldsByHeader($headerId) {
+    public function deleteCustomField(): bool
+    {
+        $data = [
+            'id' => $this->id,
+        ];
+        return DB::set("DELETE FROM custom_fields WHERE id = :id", $data);
+
+    }
+
+    public static function getCustomFieldsByHeader($headerId): bool|array
+    {
         return DB::getAll("SELECT * FROM custom_fields WHERE header_id = " . $headerId);
     }
 
-    public function linkCharacterWithField()
+    public function linkCharacterWithField(): void
     {
         $data = [
           'id' => $this->id,
