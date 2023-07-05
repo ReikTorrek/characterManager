@@ -1,9 +1,8 @@
 $(document).ready(function () {
     $("#character").on('click', '.add_field', function () {
-        const dataId = $(this).data('id');
-        alert('click detected!!! Data-id = ' + dataId)
-        $("#create__field").removeAttr('data-id', dataId);
-        $("#create__field").attr('data-id', dataId);
+        let dataId = $(this).data('id');
+        $("#create__field").removeAttr('data-id');
+        $("#create__field").data('id', dataId);
     })
 
     $("#add_header_name").on('click', function () {
@@ -18,7 +17,7 @@ $(document).ready(function () {
             },
             success: function(data){   /* функция которая будет выполнена после успешного запроса.  */
                 data = JSON.parse(data);
-                const character = $("#character");
+                let character = $("#character");
                 character.append(
                     '<h2 class="block_name" data-id="'+data.id+'" style="color: '+data.color+'">'+data.name+'</h2>'
                 );
@@ -26,7 +25,7 @@ $(document).ready(function () {
                     '<div id="'+data.id+'"></div>'
                 );
 
-                const characterData = $("#"+data.id);
+                let characterData = $("#"+data.id);
                 characterData.append(
                     '<button type="button" class="btn btn-success mb-3 add_field" data-id = "'+data.id+'" data-bs-toggle="modal" data-bs-target="#addFieldModal">Добавить поле</button>'
                 )
@@ -34,8 +33,6 @@ $(document).ready(function () {
         });
     })
     $("#create__field").on('click', function () {
-        console.log($(this).data('id'))
-        console.log($("#create__field").data('id'))
         $.ajax({
             url: '/modules/character/controller/ajax/addHeader.php',
             method: 'post',
@@ -59,8 +56,8 @@ $(document).ready(function () {
                     },
                     success: function(fieldData){   /* функция которая будет выполнена после успешного запроса.  */
                         fieldData = JSON.parse(fieldData);
-                        const addFieldButton = $(".add_field[data-id="+data.header_id+"]");
-                        const characterData = $("#"+data.header_id);
+                        let addFieldButton = $(".add_field[data-id="+data.header_id+"]");
+                        let characterData = $("#"+data.header_id);
                         addFieldButton.remove();
                         characterData.append(
                             '<p id="'+data.id+'"></p>'
@@ -68,7 +65,7 @@ $(document).ready(function () {
                         characterData.append(
                             '<button type="button" class="btn btn-success mb-3 add_field" data-id = "'+data.header_id+'" data-bs-toggle="modal" data-bs-target="#addFieldModal">Добавить поле</button>'
                         )
-                        const field = $("#"+data.id);
+                        let field = $("#"+data.id);
                         field.append(
                             '<span style="color: '+data.color+'">'+data.name+'</span>: '
                         )
@@ -82,7 +79,7 @@ $(document).ready(function () {
     })
 
     $("#create_character").on('click', function () {
-        const headers = $("h2");
+        let headers = $("h2");
         let headerIds = [];
         for (let i = 0; i < headers.length; i ++) {
             headerIds.push(headers[i].dataset.id)
@@ -107,7 +104,7 @@ $(document).ready(function () {
 };*/
 
 $("#unset_character").on('click', function () {
-    const headers = $("h2");
+    let headers = $("h2");
     let headerIds = [];
     for (let i = 0; i < headers.length; i ++) {
         headerIds.push(headers[i].dataset.id)
@@ -126,7 +123,7 @@ $("#unset_character").on('click', function () {
 })
 
 window.addEventListener("unload", function() {
-    const headers = $("h2");
+    let headers = $("h2");
     let headerIds = [];
     for (let i = 0; i < headers.length; i ++) {
         headerIds.push(headers[i].dataset.id)
