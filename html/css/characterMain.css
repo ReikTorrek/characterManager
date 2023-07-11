@@ -25,6 +25,7 @@
 }
 
 .panel.show {
+    height: 80%;
     display: block;
 }
 
@@ -32,6 +33,9 @@
     display: flex;
     flex-wrap: wrap;
     margin-top: 10px;
+    width: 100%; /* Добавленное свойство */
+    height: 100%; /* Добавленное свойство */
+    justify-content: center; /* Добавленное свойство */
 }
 
 .dice-icons span {
