@@ -11,37 +11,37 @@
                     <div class="dice-icon" data-dice="4">
                         <span>4</span>
                         <div id="dice-summ-4" data-dice="4">
-                            <span>0</span>
+                            0
                         </div>
                     </div>
                     <div class="dice-icon" data-dice="6">
                         <span>6</span>
                         <div id="dice-summ-6" data-dice="6">
-                            <span>0</span>
+                            0
                         </div>
                     </div>
                     <div class="dice-icon" data-dice="8">
                         <span>8</span>
                         <div id="dice-summ-8" data-dice="8">
-                            <span>0</span>
+                            0
                         </div>
                     </div>
                     <div class="dice-icon" data-dice="10">
                         <span>10</span>
                         <div id="dice-summ-10" data-dice="10">
-                            <span>0</span>
+                            0
                         </div>
                     </div>
                     <div class="dice-icon" data-dice="12">
                         <span>12</span>
                         <div id="dice-summ-12" data-dice="12">
-                            <span>0</span>
+                            0
                         </div>
                     </div>
                     <div class="dice-icon" data-dice="20">
                         <span>20</span>
                         <div id="dice-summ-20" data-dice="20">
-                            <span>0</span>
+                            0
                         </div>
                     </div>
                 </div>

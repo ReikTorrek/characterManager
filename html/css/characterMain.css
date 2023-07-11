@@ -36,6 +36,7 @@
     width: 100%; /* Добавленное свойство */
     height: 100%; /* Добавленное свойство */
     justify-content: center; /* Добавленное свойство */
+    border: 1px solid #000;
 }
 
 .dice-icons span {
@@ -45,6 +46,18 @@
     text-align: center;
     line-height: 20px;
     margin: 5px;
-    border: 1px solid #000;
     cursor: pointer;
+}
+
+.dice-icon div {
+    border: 1px solid black;
+    text-align: center;
+}
+
+.dice-icon p {
+    border-bottom: 1px solid black;
+    border-right: 1px solid black;
+    text-align: center;
+    background-color: rgba(167, 164, 164, 0.71);
+
 }

@@ -39,6 +39,9 @@ $(document).ready(function () {
             data: { dice: selectedDice },
             success: function(response) {
                 $(".dice-icon[data-dice="+ selectedDice +"]").append("<p>" + response + "</p>")
+                let currSumm = parseInt($("#dice-summ-" + selectedDice).text());
+                currSumm += parseInt(response);
+                $("#dice-summ-" + selectedDice).text(currSumm)
                 // Обработка успешного ответа от сервера
             },
             error: function(xhr, status, error) {
