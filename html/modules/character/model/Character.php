@@ -19,6 +19,7 @@ class Character
     private function fillSelf($character) {
         $this->id = @$character['id'];
         $this->name = @$character['name'];
+        $this->user_id = @$character['user_id'];
     }
 
     public static function getCharacter($id) {
@@ -83,6 +84,16 @@ class Character
         ];
 
         return DB::add("INSERT INTO characters (`name`, `user_id`) VALUES (:name, :user_id)", $data);
+    }
+
+    public function deleteCharacter()
+    {
+        $characterFieldsIds = DB::getAll("SELECT id FROM custom_fields WHERE character_id = " . $this->id);
+        foreach ($characterFieldsIds as $id) {
+            DB::set("DELETE FROM custom_fields_data WHERE field_id = " . $id['id']);
+        }
+        DB::set("DELETE FROM custom_fields WHERE character_id = " . $this->id);
+        return DB::set("DELETE FROM characters WHERE id = " . $this->id);
     }
 
 }

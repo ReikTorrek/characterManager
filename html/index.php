@@ -29,6 +29,8 @@ if ($url == '/characters/') {
     $styleList =[
     ];
     $scriptList = [
+        '/js/charactersMain.js'
+
     ];
 
     $title = "Персонажи";
