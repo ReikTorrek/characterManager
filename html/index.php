@@ -75,6 +75,7 @@ if ($url_explode[0] == 'character' && !empty($url_explode[1])) {
     if (!User::checkUserCookies()) {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/templates/error/notAuthed.php';
     }else {
+        require_once $_SERVER["DOCUMENT_ROOT"] . '/templates/character/diceRollerModal.php';
         require_once $_SERVER["DOCUMENT_ROOT"] . '/modules/character/controller/characterController.php';
     }
     require_once $_SERVER["DOCUMENT_ROOT"] . '/templates/footer.php';
