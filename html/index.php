@@ -36,7 +36,11 @@ if ($url == '/characters/') {
     $data['h'] = "";
     require_once $_SERVER["DOCUMENT_ROOT"] . '/templates/head.php';
     require_once $_SERVER["DOCUMENT_ROOT"] . '/templates/header.php';
-    require_once $_SERVER["DOCUMENT_ROOT"] .  '/modules/characters/controller/charactersController.php';
+    if (!User::checkUserCookies()) {
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/templates/error/notAuthed.php';
+    }else {
+        require_once $_SERVER["DOCUMENT_ROOT"] .  '/modules/characters/controller/charactersController.php';
+    }
     require_once $_SERVER["DOCUMENT_ROOT"] . '/templates/footer.php';
     exit();
 }
@@ -68,7 +72,11 @@ if ($url_explode[0] == 'character' && !empty($url_explode[1])) {
     $data['h'] = "";
     require_once $_SERVER["DOCUMENT_ROOT"] . '/templates/head.php';
     require_once $_SERVER["DOCUMENT_ROOT"] . '/templates/header.php';
-    require_once $_SERVER["DOCUMENT_ROOT"] .  '/modules/character/controller/characterController.php';
+    if (!User::checkUserCookies()) {
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/templates/error/notAuthed.php';
+    }else {
+        require_once $_SERVER["DOCUMENT_ROOT"] . '/modules/character/controller/characterController.php';
+    }
     require_once $_SERVER["DOCUMENT_ROOT"] . '/templates/footer.php';
     exit();
 }
@@ -85,9 +93,13 @@ if ($url == '/create/') {
     $data['h'] = "";
     require_once $_SERVER["DOCUMENT_ROOT"] . '/templates/head.php';
     require_once $_SERVER["DOCUMENT_ROOT"] . '/templates/header.php';
-    require_once $_SERVER["DOCUMENT_ROOT"] . '/templates/createCharacter/modals/addHeaderModal.php';
-    require_once $_SERVER["DOCUMENT_ROOT"] . '/templates/createCharacter/modals/addFieldModal.php';
-    require_once $_SERVER["DOCUMENT_ROOT"] . '/modules/character/controller/createCharacterController.php';
+    if (!User::checkUserCookies()) {
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/templates/error/notAuthed.php';
+    }else {
+        require_once $_SERVER["DOCUMENT_ROOT"] . '/templates/createCharacter/modals/addHeaderModal.php';
+        require_once $_SERVER["DOCUMENT_ROOT"] . '/templates/createCharacter/modals/addFieldModal.php';
+        require_once $_SERVER["DOCUMENT_ROOT"] . '/modules/character/controller/createCharacterController.php';
+    }
     require_once $_SERVER["DOCUMENT_ROOT"] . '/templates/footer.php';
     exit();
 }
