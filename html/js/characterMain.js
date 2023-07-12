@@ -52,5 +52,6 @@ $(document).ready(function () {
     });
     $("#clearBtn").click(function () {
         $(".dice-icons .dice-icon").find("p").remove()
+        $(".dice-icons .dice-icon").find("div").text(0)
     })
 })
