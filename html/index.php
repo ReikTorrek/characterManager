@@ -101,6 +101,7 @@ if ($url == '/create/') {
     }else {
         require_once $_SERVER["DOCUMENT_ROOT"] . '/templates/createCharacter/modals/addHeaderModal.php';
         require_once $_SERVER["DOCUMENT_ROOT"] . '/templates/createCharacter/modals/addFieldModal.php';
+        require_once $_SERVER["DOCUMENT_ROOT"] . '/templates/createCharacter/modals/addFieldChildModal.php';
         require_once $_SERVER["DOCUMENT_ROOT"] . '/modules/character/controller/createCharacterController.php';
     }
     require_once $_SERVER["DOCUMENT_ROOT"] . '/templates/footer.php';

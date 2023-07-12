@@ -8,7 +8,7 @@
                 </div>
             </div>
         </div>
-        <?php foreach ($data as $key => $char): ?>
+        <?php if (is_array($data)) foreach ($data as $key => $char): ?>
         <div class="col-sm-3 ml-5 mb-3" id="<?= $char->id ?>">
             <div class="card" style="width: 18rem;">
                 <img class="card-img-top" src="/static/img/templates/characterTemplate.jpg" alt="Card image cap">

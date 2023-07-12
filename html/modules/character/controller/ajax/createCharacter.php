@@ -11,5 +11,11 @@ foreach ($_POST['headerIds'] as $id) {
         $customField = new CustomField($field);
         $customField->characterId = $characterId;
         $customField->linkCharacterWithField();
+        $customFieldChildren = CustomField::getCustomFieldsByHeader($customField->id);
+        foreach ($customFieldChildren as $child) {
+            $child = new CustomField($child);
+            $child->characterId = $characterId;
+            $child->linkCharacterWithField();
+        }
     }
 }

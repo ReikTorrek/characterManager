@@ -30,9 +30,12 @@ class Character
         return $character;
     }
 
-    public static function getAllCharactersByUserId($userId): array
+    public static function getAllCharactersByUserId($userId): array|int
     {
         $characters = DB::getAll("SELECT * FROM characters WHERE user_id = " . $userId);
+        if (!$characters) {
+            return 0;
+        }
         foreach ($characters as $key => $value) {
             $objectscarsArray[$key] = new Character($value);
         }
@@ -42,24 +45,24 @@ class Character
 
     public function getAllCustomFields(): void
     {
-        $customFields = DB::getAll("SELECT * FROM custom_fields WHERE character_id = " . $this->id);
-        foreach ($customFields as $key => $customField) {
-            $customFields[$key]['data'] = $this->getCustomFieldData($customField['id']);
-            $customFields[$key]['data_color'] = $this->getCustomFieldColor($customField['id']);
-        }
         $headers = $this->getCustomHeader();
+        foreach ($headers as $key => $header) {
+            $headerChildren = $this->getCustomHeaderChildren($header['id']);
+            foreach ($headerChildren as $keyy => $child) {
+                $headerChildren[$keyy]['data'] = $this->getCustomFieldData($child['id']);
+                $headerChildren[$keyy]['data_color'] = $this->getCustomFieldDataColor($child['id']);
+                $headerChildren[$keyy]['children'] = $this->getCustomHeaderChildren($child['id']);
+                foreach ($headerChildren[$keyy]['children'] as $keyyy => $headerChild) {
+                    $headerChildren[$keyy]['children'][$keyyy]['data'] = $this->getCustomFieldData($headerChild['id']);
+                    $headerChildren[$keyy]['children'][$keyyy]['data_color'] = $this->getCustomFieldDataColor($headerChild['id']);
+                }
+            }
+            $headers[$key]['children'] = $headerChildren;
+        }
         usort($headers, function($a, $b){
             return ($a['sort'] - $b['sort']);
         });
-        foreach ($headers as $header) {
-            foreach ($customFields as $customField) {
-                if ($header['id'] == $customField['header_id']) {
-                    $this->custom_fields[$header['name']][] = $customField;
-                    $this->custom_fields[$header['name']]['header_id'] = $customField['header_id'];
-                    $this->custom_fields[$header['name']]['color'] = $customField['color'];
-                }
-            }
-        }
+        $this->custom_fields = $headers;
     }
 
     public function getCustomHeader(): bool|array
@@ -67,11 +70,16 @@ class Character
         return DB::getAll("SELECT * FROM custom_fields WHERE header_id IS NULL AND character_id = " . $this->id);
     }
 
+    public function getCustomHeaderChildren($headerId)
+    {
+        return DB::getAll("SELECT * FROM custom_fields WHERE header_id = " . $headerId . " AND character_id = " . $this->id);
+    }
+
     public function getCustomFieldData($fieldId)
     {
         return DB::getValue("SELECT data FROM custom_fields_data WHERE field_id = " . $fieldId);
     }
-    public function getCustomFieldColor($fieldId)
+    public function getCustomFieldDataColor($fieldId)
     {
         return DB::getValue("SELECT color FROM custom_fields_data WHERE field_id = " . $fieldId);
     }
