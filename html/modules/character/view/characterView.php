@@ -4,13 +4,13 @@
         <h2 class="block_name" style="color: <?= $custom_field['color'] ?>" data-id="<?= $custom_field['id'] ?>"><?=$custom_field['name']; ?></h2>
         <div id="<?=$custom_field['id']?>">
             <?php if (is_array($custom_field['children']))  foreach ($custom_field['children'] as $headerChild): if (is_array($headerChild)): ?>
-            <div class="ml-3 mb-2">
-                <span style="color: <?=$headerChild['color']?>"><?=$headerChild['name']?>: </span>
-                <span style="color: <?=$headerChild['data_color']?>"><?=$headerChild['data']?></span>
+            <div class="ml-3 mb-2 field">
+                <span style="color: <?=$headerChild['color']?>" class="field_name"><?=$headerChild['name']?></span>
+                <span style="color: <?=$headerChild['data_color']?>" class="field_value"><?=$headerChild['data']?></span>
                 <?php foreach ($headerChild['children'] as $child): ?>
-                    <div class="">
-                        <span class="ml-3" style="color: <?=$child['color']?>"><?= $child['name'] ?>: </span>
-                        <span class="" style="color: <?=$child['data_color']?>"><?= $child['data'] ?></span>
+                    <div class="child">
+                        <span class="ml-3 child_name" style="color: <?=$child['color']?>"><?= $child['name'] ?> </span>
+                        <span class="child_value" style="color: <?=$child['data_color']?>"><?= $child['data'] ?></span>
                     </div>
                 <?php endforeach; ?>
             </div>

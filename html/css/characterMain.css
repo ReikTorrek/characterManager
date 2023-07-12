@@ -59,5 +59,8 @@
     border-right: 1px solid black;
     text-align: center;
     background-color: rgba(167, 164, 164, 0.71);
+}
 
+.field_name::after {
+    content: ":";
 }

@@ -10,7 +10,6 @@ $(document).ready(function () {
     })
 
     let panelVisible = false;
-
     $("#togglePanelBtn").click(function() {
         let panelWidth;
         if (panelVisible) {
@@ -53,5 +52,28 @@ $(document).ready(function () {
     $("#clearBtn").click(function () {
         $(".dice-icons .dice-icon").find("p").remove()
         $(".dice-icons .dice-icon").find("div").text(0)
+    })
+    let holdTimer;
+    let holdDelay = 500
+    $('.field span').on('mousedown touchstart', function () {
+        let value = $(this).text();
+        let spanData = $(this);
+        holdTimer = setTimeout(function () {
+            let spanClass = spanData.attr('class')
+            let spanColor = spanData.css('color')
+            spanData.replaceWith('<div class="input-group mb-3 w-25">\n' +
+                '  <input type="text" class="form-control" id="changer" ">\n' +
+                '  <div class="input-group-append">\n' +
+                '    <button class="btn btn-outline-secondary" id="save" type="button">Сохранить</button>\n' +
+                '  </div>\n' +
+                '</div>')
+            let changer = $("#changer")
+            changer.val(value)
+        }, holdDelay)
+    }).on('mouseup touchend', function () {
+        clearTimeout(holdTimer)
+    })
+    $("#save").click(function () {
+        alert('bum!')
     })
 })
