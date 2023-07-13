@@ -61,6 +61,23 @@ if ($url == '/sign_in/') {
     require_once $_SERVER["DOCUMENT_ROOT"] . '/templates/footer.php';
     exit();
 }
+
+if ($url == '/templates/') {
+    $styleList =[
+    ];
+    $scriptList = [
+    ];
+
+    $title = "Авторизация";
+    $description = "";
+    $data['h'] = "";
+    require_once $_SERVER["DOCUMENT_ROOT"] . '/templates/head.php';
+    require_once $_SERVER["DOCUMENT_ROOT"] . '/templates/header.php';
+    require_once $_SERVER["DOCUMENT_ROOT"] .  '/modules/customFields/controller/customFieldTemplatesController.php';
+    require_once $_SERVER["DOCUMENT_ROOT"] . '/templates/footer.php';
+    exit();
+}
+
 if ($url_explode[0] == 'character' && !empty($url_explode[1])) {
     $styleList =[
         '/css/characterMain.css',
@@ -78,6 +95,7 @@ if ($url_explode[0] == 'character' && !empty($url_explode[1])) {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/templates/error/notAuthed.php';
     }else {
         require_once $_SERVER["DOCUMENT_ROOT"] . '/templates/character/diceRollerModal.php';
+        require_once $_SERVER["DOCUMENT_ROOT"] . '/templates/character/modals/changeFieldModal.php';
         require_once $_SERVER["DOCUMENT_ROOT"] . '/modules/character/controller/characterController.php';
     }
     require_once $_SERVER["DOCUMENT_ROOT"] . '/templates/footer.php';

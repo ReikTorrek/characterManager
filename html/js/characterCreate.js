@@ -154,9 +154,9 @@ $(document).ready(function () {
     })
 })
 
-/*window.onbeforeunload = function() {
+window.onbeforeunload = function() {    
     return "Есть несохранённые изменения. Всё равно уходим?";
-};*/
+};
 
 $("#unset_character").on('click', function () {
     let headers = $("h2");

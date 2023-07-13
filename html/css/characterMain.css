@@ -64,3 +64,8 @@
 .field_name::after {
     content: ":";
 }
+
+.field input {
+    width: 50%;
+    display: inline;
+}

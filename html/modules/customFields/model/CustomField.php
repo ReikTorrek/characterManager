@@ -67,6 +67,16 @@ class CustomField
 
     }
 
+    public static function getAllCustomFieldHeadersByUser($userId)
+    {
+        return DB::getAll("SELECT * FROM custom_fields WHERE header_id IS NULL AND user_id = " . $userId);
+    }
+
+    public static function getAllCustomFieldsByUser($user)
+    {
+        return DB::getAll("SELECT * FROM custom_fields WHERE header_id IS NOT NULL AND user_id = " . $user);
+    }
+
     public static function getCustomFieldsByHeader($headerId): bool|array
     {
         return DB::getAll("SELECT * FROM custom_fields WHERE header_id = " . $headerId);
@@ -80,5 +90,18 @@ class CustomField
         ];
 
         DB::set("UPDATE custom_fields SET character_id = :character_id WHERE id = :id", $data);
+    }
+
+    public function updateCustomField()
+    {
+        $data = [
+            'id' => $this->id,
+            'name' => $this->name,
+            'header_id' => $this->headerId,
+            'color' => $this->color,
+            'sort' => $this->sort,
+        ];
+
+        DB::set("UPDATE custom_fields SET name = :name, header_id = :header_id, color = :color, sort = :sort WHERE id = :id", $data);
     }
 }

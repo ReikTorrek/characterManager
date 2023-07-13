@@ -53,27 +53,161 @@ $(document).ready(function () {
         $(".dice-icons .dice-icon").find("p").remove()
         $(".dice-icons .dice-icon").find("div").text(0)
     })
+
     let holdTimer;
-    let holdDelay = 500
-    $('.field span').on('mousedown touchstart', function () {
+    let holdDelay = 250
+    $('.field').on('mousedown touchstart', '.field_value', function () {
         let value = $(this).text();
         let spanData = $(this);
+        let spanClass = spanData.attr('class');
+        let spanColor = spanData.css('color');
+        let spanId = spanData.data('id');
+
+        let holdTimer;
+
+        let inputField = $('<input>', {
+            type: 'text',
+            class: 'form-control small-input',
+            value: value
+        });
+
+        inputField.addClass(spanClass);
+        inputField.css('color', spanColor);
+
         holdTimer = setTimeout(function () {
-            let spanClass = spanData.attr('class')
-            let spanColor = spanData.css('color')
-            spanData.replaceWith('<div class="input-group mb-3 w-25">\n' +
-                '  <input type="text" class="form-control" id="changer" ">\n' +
-                '  <div class="input-group-append">\n' +
-                '    <button class="btn btn-outline-secondary" id="save" type="button">Сохранить</button>\n' +
-                '  </div>\n' +
-                '</div>')
-            let changer = $("#changer")
-            changer.val(value)
-        }, holdDelay)
+            spanData.replaceWith(inputField);
+            inputField.focus();
+        }, holdDelay);
+
+        inputField.on('focusout', function () {
+            let inputValue = inputField.val();
+            let spanField = $('<span>', {
+                text: inputValue,
+                class: spanClass,
+                'data-id': spanId
+            });
+
+            spanField.css('color', spanColor);
+            inputField.replaceWith(spanField);
+
+            $.ajax({
+                url: "/modules/character/controller/ajax/updateCustomFieldData.php",
+                method: "POST",
+                data: {
+                    value: inputValue,
+                    field_id: spanId
+                },
+                success: function(response) {
+                    // Обработка успешного ответа от сервера
+                },
+                error: function(xhr, status, error) {
+                    // Обработка ошибки
+                    console.error("AJAX ошибка:", status, error);
+                }
+            });
+        });
+
+        $(document).on('mouseup touchend', function () {
+            clearTimeout(holdTimer);
+        });
+    });
+
+    $('.field').on('focusout', '.field_value input', function () {
+        let inputValue = $(this).val();
+        let spanData = $(this).parent();
+        let spanClass = spanData.attr('class');
+        let spanColor = spanData.css('color');
+        let spanId = spanData.data('id');
+
+        let spanField = $('<span>', {
+            text: inputValue,
+            class: spanClass,
+            'data-id': spanId
+        });
+
+        spanField.css('color', spanColor);
+        $(this).replaceWith(spanField);
+    });
+
+    $('.field_name').on('mousedown touchstart', function () {
+        let value = $(this).text();
+        let spanData = $(this);
+        let spanClass = spanData.attr('class');
+        let spanColor = spanData.css('color');
+        let spanId = spanData.data('id');
+        let spanDataValue = $('.field .field_value[data-id='+spanId+']').text();
+        let spanDataColor = $('.field .field_value[data-id='+spanId+']').css('color');
+
+        $("#block_name").val(value)
+        $("#block_name_color").val(rgbToHex(spanColor))
+        $("#block_data").val(spanDataValue)
+        $("#block_data_color").val(rgbToHex(spanDataColor))
+        $("#change_field").data('id', spanId)
+        $("#change_field").data('header', spanData.data('header'))
+
+        holdTimer = setTimeout(function () {
+            // Открываем модальное окно
+            $('#changeFieldModal').modal('show');
+        }, holdDelay);
     }).on('mouseup touchend', function () {
-        clearTimeout(holdTimer)
-    })
-    $("#save").click(function () {
-        alert('bum!')
+        clearTimeout(holdTimer);
+    });
+
+    $("#change_field").click(function () {
+        $.ajax({
+            url: "/modules/character/controller/ajax/updateHeader.php",
+            method: 'post',
+            dataType: 'html',          /* Тип данных в ответе (xml, json, script, html). */
+            data: {
+                id: $("#change_field").data('id'),
+                header_id: $("#change_field").data('header'),
+                name: $("#block_name").val(),
+                color: $("#block_name_color").val(),
+            },
+            success: function(response) {
+                response = JSON.parse(response);
+                $('.field_name[data-id='+response.id+']').text(response.name)
+                $('.field_name[data-id='+response.id+']').css('color', response.color)
+            },
+            error: function(xhr, status, error) {
+                // Обработка ошибки
+                console.error("AJAX ошибка:", status, error);
+            }
+        });
+
+        $.ajax({
+            url: "/modules/character/controller/ajax/updateAllFieldData.php",
+            method: 'post',
+            dataType: 'html',          /* Тип данных в ответе (xml, json, script, html). */
+            data: {
+                field_id: $("#change_field").data('id'),
+                data: $("#block_data").val(),
+                color: $("#block_data_color").val(),
+            },
+            success: function(response) {
+                response = JSON.parse(response);
+                $('.field_value[data-id='+response.field_id+']').text(response.data)
+                $('.field_value[data-id='+response.field_id+']').css('color', response.color)
+            },
+            error: function(xhr, status, error) {
+                // Обработка ошибки
+                console.error("AJAX ошибка:", status, error);
+            }
+        });
     })
 })
+
+function rgbToHex(rgb) {
+    // Удаляем пробелы и разделительные символы
+    rgb = rgb.replace(/\s/g, '');
+
+    // Получаем значения красного, зеленого и синего цветов
+    var r = parseInt(rgb.slice(4, 7));
+    var g = parseInt(rgb.slice(9, 12));
+    var b = parseInt(rgb.slice(14, 17));
+
+    // Конвертируем значения в шестнадцатеричную запись
+    var hex = '#' + ((r << 16) | (g << 8) | b).toString(16).padStart(6, '0');
+
+    return hex;
+}

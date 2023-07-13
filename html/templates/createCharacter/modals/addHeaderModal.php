@@ -13,6 +13,14 @@
                         <input type="text" class="form-control" id="header_name">
                     </div>
                     <div class="mb-3">
+                        <label for="header_name_choose">Выбрать из списка</label>
+                        <select type="text" class="form-control" id="header_name_choose">
+                            <?php foreach ($data['headers'] as $header): ?>
+                            <option value="<?= $header['id'] ?>"><?= $header['name'] ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                    <div class="mb-3">
                         <label for="header_color">Цвет текста заголовка</label>
                         <input type="color" id="header_color" name="header_color" value="#e66465">
                     </div>

@@ -35,10 +35,9 @@ class CustomFieldData
         return DB::getRow("SELECT * FROM custom_fields_data WHERE field_id = :field_id", $array);
     }
 
-    public function createCustomFieldData()
+    public function createCustomFieldData(): bool|int|string
     {
         $data = [
-            'name' => $this->id,
             'field_id' => $this->fieldId,
             'data' => $this->data,
             'color' => $this->color,
@@ -62,5 +61,17 @@ class CustomFieldData
         ];
         return DB::set("DELETE FROM custom_fields_data WHERE id = :id", $data);
 
+    }
+
+    public function updateCustomFieldData(): void
+    {
+        $data = [
+            'id' => $this->id,
+            'field_id' => $this->fieldId,
+            'data' => $this->data,
+            'color' => $this->color,
+        ];
+
+        DB::set("UPDATE custom_fields_data SET field_id = :field_id, data = :data, color = :color WHERE id = :id", $data);
     }
 }
