@@ -46,6 +46,25 @@ if ($url == '/characters/') {
     require_once $_SERVER["DOCUMENT_ROOT"] . '/templates/footer.php';
     exit();
 }
+
+if ($url == '/user/') {
+    $styleList =[
+        '/css/userMain.css',
+    ];
+    $scriptList = [
+    ];
+
+    $title = $_COOKIE['login'];
+    $description = "";
+    $data['h'] = "";
+
+    require_once $_SERVER["DOCUMENT_ROOT"] . '/templates/head.php';
+    require_once $_SERVER["DOCUMENT_ROOT"] . '/templates/header.php';
+    require_once $_SERVER["DOCUMENT_ROOT"] .  '/modules/user/controller/userController.php';
+    require_once $_SERVER["DOCUMENT_ROOT"] . '/templates/footer.php';
+    exit();
+}
+
 if ($url == '/sign_in/') {
     $styleList =[
     ];
@@ -62,7 +81,7 @@ if ($url == '/sign_in/') {
     exit();
 }
 
-if ($url == '/templates/') {
+if ($url == '/template/') {
     $styleList =[
     ];
     $scriptList = [

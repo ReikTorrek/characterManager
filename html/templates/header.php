@@ -1,4 +1,3 @@
-<body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
         <a class="navbar-brand" href="#">C_M</a>
@@ -14,7 +13,7 @@
                     <a class="nav-link" href="/characters/">Characters</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/templates/">Templates (Later)</a>
+                    <a class="nav-link" href="/template/">Templates</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="<?= User::checkUserCookies() ? '/user/' : '/sign_in/' ?>"><?= User::checkUserCookies() ? $_COOKIE['login'] : 'sign-in' ?></a>
@@ -23,4 +22,5 @@
         </div>
     </div>
 </nav>
+<body>
 <?php
