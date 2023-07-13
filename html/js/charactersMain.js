@@ -2,7 +2,7 @@ $(document).ready(function () {
     $(".clearBtn").click(function () {
         let id = $(this).data('id')
         $.ajax({
-            url: "/modules/character/controller/ajax/deleteCharacter.php",
+            url: "/modules/character/controller/ajax/softDeleteCharacter.php",
             method: "POST",
             data: { characterId: id },
             success: function(response) {

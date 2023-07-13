@@ -6,6 +6,7 @@ class Character
     public $name;
     public $user_id;
     public $custom_fields;
+    public $is_deleted;
 
     public function __construct($character) {
         if (is_array($character)) { // Проверка массив ли входящий параметр, если да заполнить класс
@@ -20,6 +21,7 @@ class Character
         $this->id = @$character['id'];
         $this->name = @$character['name'];
         $this->user_id = @$character['user_id'];
+        $this->is_deleted = @$character['is_deleted'];
     }
 
     public static function getCharacter($id) {
@@ -32,7 +34,11 @@ class Character
 
     public static function getAllCharactersByUserId($userId): array|int
     {
-        $characters = DB::getAll("SELECT * FROM characters WHERE user_id = " . $userId);
+        $data = [
+          'user_id' => $userId,
+          'is_deleted' => 0,
+        ];
+        $characters = DB::getAll("SELECT * FROM characters WHERE user_id = :user_id AND is_deleted = :is_deleted", $data);
         if (!$characters) {
             return 0;
         }
@@ -102,6 +108,11 @@ class Character
         }
         DB::set("DELETE FROM custom_fields WHERE character_id = " . $this->id);
         return DB::set("DELETE FROM characters WHERE id = " . $this->id);
+    }
+
+    public function softDeleteCharacter()
+    {
+        return DB::set("UPDATE characters SET is_deleted = 1 WHERE id = " . $this->id);
     }
 
 }
