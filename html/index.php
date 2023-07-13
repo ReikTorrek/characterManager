@@ -65,6 +65,42 @@ if ($url == '/user/') {
     exit();
 }
 
+if ($url_explode[0] == 'user' && $url_explode[1] == 'deleted') {
+    $styleList =[
+    ];
+    $scriptList = [
+        '/js/deletedCharactersMain.js'
+    ];
+
+    $title = 'Удалённые персонажи';
+    $description = "";
+    $data['h'] = "";
+
+    require_once $_SERVER["DOCUMENT_ROOT"] . '/templates/head.php';
+    require_once $_SERVER["DOCUMENT_ROOT"] . '/templates/header.php';
+    require_once $_SERVER["DOCUMENT_ROOT"] .  '/modules/characters/controller/deletedCharactersController.php';
+    require_once $_SERVER["DOCUMENT_ROOT"] . '/templates/footer.php';
+    exit();
+}
+
+if ($url_explode[0] == 'user' && $url_explode[1] == 'export') {
+    $styleList =[
+    ];
+    $scriptList = [
+        '/js/exportCharacterMain.js'
+    ];
+
+    $title = 'Экспорт персонажа';
+    $description = "";
+    $data['h'] = "";
+
+    require_once $_SERVER["DOCUMENT_ROOT"] . '/templates/head.php';
+    require_once $_SERVER["DOCUMENT_ROOT"] . '/templates/header.php';
+    require_once $_SERVER["DOCUMENT_ROOT"] .  '/modules/characters/controller/exportCharacterController.php';
+    require_once $_SERVER["DOCUMENT_ROOT"] . '/templates/footer.php';
+    exit();
+}
+
 if ($url == '/sign_in/') {
     $styleList =[
     ];

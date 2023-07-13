@@ -4,9 +4,9 @@
         <h3><?=$data['user']->login ?></h3>
     </div>
     <div class="user-links">
-        <a href="#">Удалённые персонажи</a>
-        <a href="#">Настройки</a>
-        <a href="#">Экспортировать персонажа</a>
-        <a href="#">Импортировать персонажа</a>
+        <a href="/user/deleted/">Удалённые персонажи</a>
+        <a href="/user/settings/">Настройки</a>
+        <a href="/user/export/">Экспортировать персонажа</a>
+        <a href="/user/import/">Импортировать персонажа</a>
     </div>
 </div>

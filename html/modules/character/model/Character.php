@@ -49,6 +49,23 @@ class Character
         return $objectscarsArray;
     }
 
+    public static function getAllDeletedCharactersByUserId($userId): array|int
+    {
+        $data = [
+            'user_id' => $userId,
+            'is_deleted' => 1,
+        ];
+        $characters = DB::getAll("SELECT * FROM characters WHERE user_id = :user_id AND is_deleted = :is_deleted", $data);
+        if (!$characters) {
+            return 0;
+        }
+        foreach ($characters as $key => $value) {
+            $objectscarsArray[$key] = new Character($value);
+        }
+
+        return $objectscarsArray;
+    }
+
     public function getAllCustomFields(): void
     {
         $headers = $this->getCustomHeader();
@@ -110,9 +127,13 @@ class Character
         return DB::set("DELETE FROM characters WHERE id = " . $this->id);
     }
 
-    public function softDeleteCharacter()
+    public function softDeleteCharacter(): bool
     {
         return DB::set("UPDATE characters SET is_deleted = 1 WHERE id = " . $this->id);
     }
 
+    public function restoreCharacter(): bool
+    {
+        return DB::set("UPDATE characters SET is_deleted = 0 WHERE id = " . $this->id);
+    }
 }
